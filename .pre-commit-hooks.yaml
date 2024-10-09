@@ -1,0 +1,4 @@
+- id: shrink-image
+  name: Shrink Image
+  entry: 'python replace_image.py --imagemagick-args "-resize 2000000@> -define webp:use-sharp-yuv=1"'
+  language: python
