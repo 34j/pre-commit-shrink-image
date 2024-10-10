@@ -1,4 +1,4 @@
 - id: shrink-image
   name: Shrink Image
-  entry: 'python -m pre_commit_shrink_image.py --imagemagick-args "-resize 2000000@> -define webp:use-sharp-yuv=1"'
+  entry: "python -m pre_commit_shrink_image.py"
   language: python

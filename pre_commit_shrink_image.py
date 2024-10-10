@@ -12,24 +12,39 @@ parser.add_argument(
 )
 parser.add_argument("--text-glob", help="Glob pattern for text files to replace")
 parser.add_argument(
-    "--imagemagick-args", help="Arguments for ImageMagick's convert command", default=""
+    "--imagemagick-args",
+    help="Arguments for ImageMagick's convert command",
+    default="-resize 2000000@> -define webp:method=5 "
+    "webp:use-sharp-yuv=1 webp:thread-level=1",
 )
 parser.add_argument("--suffix", default=".webp", help="Suffix of the new image files")
 parser.add_argument("--filelist", default="replace_image.txt", help="File list")
 parser.add_argument("--dry-run", action="store_true", help="Dry run", default=False)
 parser.add_argument("files", nargs="*")
 
+MAGICK_PATH = (
+    Path(__file__).parent / ("magick.exe " if platform == "win32" else "magick ")
+).absolute()
+
 if not Path("./magick").exists():
-    if platform == "linux":
-        run(["wget", "-N", "https://imagemagick.org/archive/binaries/magick"])
-    elif platform == "win32":
+    if platform == "win32":
         run(
             [
                 "wget",
                 "-N",
                 "https://imagemagick.org/archive/binaries/ImageMagick-7.1.1-39-Q16-HDRI-x64-dll.exe",
                 "-O",
-                "magick.exe",
+                MAGICK_PATH,
+            ]
+        )
+    elif platform == "linux":
+        run(
+            [
+                "wget",
+                "-N",
+                "https://imagemagick.org/archive/binaries/magick",
+                "-O",
+                MAGICK_PATH,
             ]
         )
 
@@ -55,7 +70,7 @@ for image_path in Path.cwd().glob(args.image_glob):
     size_prev, bytes_prev = (
         run(
             [
-                "./magick",
+                MAGICK_PATH,
                 "identify",
                 "-precision",
                 "3",
@@ -71,7 +86,7 @@ for image_path in Path.cwd().glob(args.image_glob):
 
     image_path_new = image_path.with_suffix(args.suffix) if args.suffix else image_path
     args = [
-        "./magick",
+        MAGICK_PATH,
         "mogrify",
         *(args.imagemagick_args or "").split(),
         "-write",
@@ -87,7 +102,7 @@ for image_path in Path.cwd().glob(args.image_glob):
     size_new, bytes_new = (
         run(
             [
-                "./magick",
+                MAGICK_PATH,
                 "identify",
                 "-precision",
                 "3",
