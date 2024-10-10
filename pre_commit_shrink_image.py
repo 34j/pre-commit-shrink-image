@@ -18,7 +18,7 @@ parser.add_argument(
     "webp:use-sharp-yuv=1 webp:thread-level=1",
 )
 parser.add_argument("--suffix", default=".webp", help="Suffix of the new image files")
-parser.add_argument("--filelist", default="replace_image.txt", help="File list")
+parser.add_argument("--filelist", default=".pre-commit-shrink-image", help="File list")
 parser.add_argument("--dry-run", action="store_true", help="Dry run", default=False)
 parser.add_argument("files", nargs="*")
 

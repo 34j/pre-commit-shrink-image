@@ -7,10 +7,12 @@
   rev: ""  # Use the sha / tag you want to point at
     hooks:
         - id: shrink-image
-         args: [--suffix, webp, --imagemagick-args, "-quality 92 -resize 2000000@> -define webp:method=5 webp:use-sharp-yuv=1 webp:thread-level=1"]
+         args: [--image-glob, images/*.{png,jpg}, --text-glob, docs/*.md, --suffix, webp, --imagemagick-args, "-quality 92 -resize 2000000@> -define webp:method=5 webp:use-sharp-yuv=1 webp:thread-level=1"]
 ```
 
 ## Usage
+
+Only staged images are processed.
 
 ```shell
 > python3 -m pre_commit_shrink_image --help
