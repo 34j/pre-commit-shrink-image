@@ -13,6 +13,7 @@
 ## Usage
 
 Only staged images are processed.
+If image extension is changed, the paths in the text files are also updated and the original images are deleted.
 
 ```shell
 > python3 -m pre_commit_shrink_image --help
