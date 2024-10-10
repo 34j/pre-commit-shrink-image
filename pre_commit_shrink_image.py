@@ -4,13 +4,17 @@ from pathlib import Path
 from subprocess import run
 from sys import platform
 
+from wcmatch import glob
+
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--image-glob",
     help="Glob pattern for images to replace",
-    default="*.{jpg,jpeg,png,gif,webp,bmp,tiff}",
+    default="**/*.[jpg][jpeg,png,gif,webp,bmp,tiff}",
 )
-parser.add_argument("--text-glob", help="Glob pattern for text files to replace")
+parser.add_argument(
+    "--text-glob", help="Glob pattern for text files to replace", default="**/*.md"
+)
 parser.add_argument(
     "--imagemagick-args",
     help="Arguments for ImageMagick's convert command",
@@ -26,7 +30,7 @@ MAGICK_PATH = (
     Path(__file__).parent / ("magick.exe " if platform == "win32" else "magick ")
 ).absolute()
 
-if not Path("./magick").exists():
+if not MAGICK_PATH.exists():
     if platform == "win32":
         run(
             [
@@ -60,8 +64,12 @@ image_paths_processed = (
 )
 
 # replace images
+print(args)
 image_path_replace = {}
-for image_path in Path.cwd().glob(args.image_glob):
+for image_path in glob(
+    args.image_glob, flags=glob.SPLIT | glob.GLOBTILDE | glob.NODIR | glob.BRACE
+):
+    print(image_path)
     image_path = image_path.relative_to(Path.cwd())
     if image_path.as_posix() in image_paths_processed:
         continue
