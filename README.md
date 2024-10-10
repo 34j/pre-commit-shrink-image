@@ -4,10 +4,10 @@
 
 ```yaml
 - repo: https://github.com/34j/pre-commit-shrink-image
-  rev: ""  # Use the sha / tag you want to point at
-    hooks:
-        - id: shrink-image
-         args: [--image-glob, images/*.{png,jpg}, --text-glob, docs/*.md, --suffix, webp, --imagemagick-args, "-quality 92 -resize 2000000@> -define webp:method=5 webp:use-sharp-yuv=1 webp:thread-level=1"]
+  rev: "32492e4ce41fade415f45d02760b421c4b3a728a"  # Use the sha / tag you want to point at
+  hooks:
+  - id: shrink-image
+    args: [--image-glob, images/*.{png,jpg}, --text-glob, docs/*.md, --suffix, webp, --imagemagick-args, "-quality 92 -resize 2000000@> -define webp:method=5 webp:use-sharp-yuv=1 webp:thread-level=1"]
 ```
 
 ## Usage
