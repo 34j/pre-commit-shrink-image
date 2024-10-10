@@ -7,7 +7,7 @@
   rev: ""  # Use the sha / tag you want to point at
     hooks:
         - id: shrink-image
-         args: [--imagemagick-args, "-quality 92 -resize 2000000@> -define webp:method=5 webp:use-sharp-yuv=1 webp:thread-level=1"]
+         args: [--suffix, webp, --imagemagick-args, "-quality 92 -resize 2000000@> -define webp:method=5 webp:use-sharp-yuv=1 webp:thread-level=1"]
 ```
 
 ## Usage
@@ -31,3 +31,8 @@ options:
   --filelist FILELIST   File list
   --dry-run             Dry run
 ```
+
+## See Also
+
+- [ImageMagick – WebP Encoding Options](https://imagemagick.org/script/webp.php)
+- [ImageMagick と WebP #ImageMagick - Qiita](https://qiita.com/yoya/items/0848a6b0b39db4cd57c2)
