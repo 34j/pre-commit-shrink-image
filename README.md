@@ -4,7 +4,7 @@
 
 ```yaml
 - repo: https://github.com/34j/pre-commit-shrink-image
-  rev: "32492e4ce41fade415f45d02760b421c4b3a728a" # Use the sha / tag you want to point at
+  rev: "1ec6c2f" # Use the sha / tag you want to point at
   hooks:
     - id: shrink-image
       args:
