@@ -52,7 +52,7 @@ if not MAGICK_PATH.exists():
             ]
         )
         run(
-            ["chmod", "+x", MAGICK_PATH],
+            ["chmod", "a+x", MAGICK_PATH],
         )
 
 args = parser.parse_args()
@@ -68,8 +68,10 @@ image_paths_processed = (
 
 # replace images
 image_path_replace = {}
-for image_path in glob.glob(
-    args.image_glob, flags=glob.SPLIT | glob.GLOBTILDE | glob.NODIR | glob.BRACE
+for image_path in sorted(
+    glob.glob(
+        args.image_glob, flags=glob.SPLIT | glob.GLOBTILDE | glob.NODIR | glob.BRACE
+    )
 ):
     image_path = Path(image_path)
     if image_path.as_posix() in image_paths_processed:
