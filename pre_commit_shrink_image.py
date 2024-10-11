@@ -39,7 +39,8 @@ if not MAGICK_PATH.exists():
                 "https://imagemagick.org/archive/binaries/ImageMagick-7.1.1-39-Q16-HDRI-x64-dll.exe",
                 "-O",
                 MAGICK_PATH,
-            ]
+            ],
+            check=True,
         )
     elif platform == "linux":
         run(
@@ -49,10 +50,12 @@ if not MAGICK_PATH.exists():
                 "https://imagemagick.org/archive/binaries/magick",
                 "-O",
                 MAGICK_PATH,
-            ]
+            ],
+            check=True,
         )
         run(
             ["chmod", "a+x", MAGICK_PATH],
+            check=True,
         )
 
 args = parser.parse_args()
@@ -90,6 +93,7 @@ for image_path in sorted(
                 image_path,
             ],
             capture_output=True,
+            check=True,
         )
         .stdout.decode("utf-8")
         .split("|")
@@ -110,7 +114,7 @@ for image_path in sorted(
     if args.dry_run:
         print(" ".join(magick_args))
         continue
-    run(magick_args)
+    run(magick_args, check=True)
 
     stat_new = image_path_new.stat()
     size_new, bytes_new = (
@@ -125,6 +129,7 @@ for image_path in sorted(
                 image_path_new,
             ],
             capture_output=True,
+            check=True,
         )
         .stdout.decode("utf-8")
         .split("|")
