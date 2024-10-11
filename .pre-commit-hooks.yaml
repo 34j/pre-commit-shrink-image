@@ -1,5 +1,5 @@
 - id: shrink-image
-  name: Shrink Image
+  name: shrink Image
   entry: "python -m pre_commit_shrink_image"
   language: python
   additional_dependencies:
