@@ -16,7 +16,7 @@
           --suffix,
           webp,
           --imagemagick-args,
-          "-quality 92 -resize 2000000@> -define webp:method=5 webp:use-sharp-yuv=1 webp:thread-level=1",
+          "-quality 92 -resize 2000000@> -define webp:method=5 -define webp:use-sharp-yuv=1 -define webp:thread-level=1",
         ]
 ```
 

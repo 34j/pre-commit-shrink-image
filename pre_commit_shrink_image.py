@@ -19,7 +19,7 @@ parser.add_argument(
     "--imagemagick-args",
     help="Arguments for ImageMagick's convert command",
     default="-resize 2000000@> -define webp:method=5 "
-    "webp:use-sharp-yuv=1 webp:thread-level=1",
+    "-define webp:use-sharp-yuv=1 -define webp:thread-level=1",
 )
 parser.add_argument("--suffix", default=".webp", help="Suffix of the new image files")
 parser.add_argument("--filelist", default=".pre-commit-shrink-image", help="File list")
@@ -93,8 +93,11 @@ for image_path in glob.glob(
         .split("|")
     )
 
-    image_path_new = image_path.with_suffix(args.suffix) if args.suffix else image_path
-    args = [
+    suffix = args.suffix
+    if not suffix.startswith("."):
+        suffix = "." + suffix
+    image_path_new = image_path.with_suffix(suffix) if suffix else image_path
+    magick_args = [
         MAGICK_PATH,
         "mogrify",
         *(args.imagemagick_args or "").split(),
@@ -103,9 +106,9 @@ for image_path in glob.glob(
         image_path,
     ]
     if args.dry_run:
-        print(" ".join(args))
+        print(" ".join(magick_args))
         continue
-    run(args)
+    run(magick_args)
 
     stat_new = image_path_new.stat()
     size_new, bytes_new = (
