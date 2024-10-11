@@ -2,5 +2,6 @@
   name: shrink image
   entry: "python -m pre_commit_shrink_image"
   language: python
+  require_serial: true
   additional_dependencies:
     - wcmatch
