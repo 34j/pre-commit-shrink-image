@@ -27,7 +27,7 @@ parser.add_argument("--dry-run", action="store_true", help="Dry run", default=Fa
 parser.add_argument("files", nargs="*")
 
 MAGICK_PATH = (
-    Path(__file__).parent / ("magick.exe " if platform == "win32" else "magick ")
+    Path(__file__).parent / ("magick.exe " if platform == "win32" else "magick")
 ).absolute()
 
 if not MAGICK_PATH.exists():
@@ -51,6 +51,9 @@ if not MAGICK_PATH.exists():
                 MAGICK_PATH,
             ]
         )
+        run(
+            ["chmod", "+x", MAGICK_PATH],
+        )
 
 args = parser.parse_args()
 
@@ -64,13 +67,11 @@ image_paths_processed = (
 )
 
 # replace images
-print(args)
 image_path_replace = {}
-for image_path in glob(
+for image_path in glob.glob(
     args.image_glob, flags=glob.SPLIT | glob.GLOBTILDE | glob.NODIR | glob.BRACE
 ):
-    print(image_path)
-    image_path = image_path.relative_to(Path.cwd())
+    image_path = Path(image_path)
     if image_path.as_posix() in image_paths_processed:
         continue
     if image_path not in files:
