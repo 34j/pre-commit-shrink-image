@@ -26,37 +26,41 @@ parser.add_argument("--filelist", default=".pre-commit-shrink-image", help="File
 parser.add_argument("--dry-run", action="store_true", help="Dry run", default=False)
 parser.add_argument("files", nargs="*")
 
-MAGICK_PATH = (
-    Path(__file__).parent / ("magick.exe " if platform == "win32" else "magick")
-).absolute()
+try:
+    run(["magick", "-version"], check=True, capture_output=True)
+    MAGICK_PATH = "magick"
+except Exception:
+    MAGICK_PATH = (
+        Path(__file__).parent / ("magick.exe" if platform == "win32" else "magick")
+    ).absolute()
 
-if not MAGICK_PATH.exists():
-    if platform == "win32":
-        run(
-            [
-                "wget",
-                "-N",
-                "https://imagemagick.org/archive/binaries/ImageMagick-7.1.1-39-Q16-HDRI-x64-dll.exe",
-                "-O",
-                MAGICK_PATH,
-            ],
-            check=True,
-        )
-    elif platform == "linux":
-        run(
-            [
-                "wget",
-                "-N",
-                "https://imagemagick.org/archive/binaries/magick",
-                "-O",
-                MAGICK_PATH,
-            ],
-            check=True,
-        )
-        run(
-            ["chmod", "a+x", MAGICK_PATH],
-            check=True,
-        )
+    if not MAGICK_PATH.exists():
+        if platform == "win32":
+            run(
+                [
+                    "wget",
+                    "-N",
+                    "https://imagemagick.org/archive/binaries/ImageMagick-7.1.1-39-Q16-HDRI-x64-dll.exe",
+                    "-O",
+                    MAGICK_PATH,
+                ],
+                check=True,
+            )
+        elif platform == "linux":
+            run(
+                [
+                    "wget",
+                    "-N",
+                    "https://imagemagick.org/archive/binaries/magick",
+                    "-O",
+                    MAGICK_PATH,
+                ],
+                check=True,
+            )
+            run(
+                ["chmod", "a+x", MAGICK_PATH],
+                check=True,
+            )
 
 args = parser.parse_args()
 

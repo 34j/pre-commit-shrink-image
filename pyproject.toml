@@ -1,13 +1,15 @@
-[tool.poetry]
+[project]
 name = "pre-commit-shrink-image"
 version = "0.1.0"
 description = "pre-commit hook for shrinking images"
-authors = ["34j"]
+authors = [{ name = "34j" }]
+requires-python = ">=3.9,<4"
 license = "CC0-1.0"
+dependencies = ["wcmatch>=10.0,<11"]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-wcmatch = "^10.0"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff]
 target-version = "py39"
@@ -50,7 +52,3 @@ select = [
 [tool.pytest.ini_options]
 addopts = "-v -Wdefault"
 testpaths = "tests/"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
